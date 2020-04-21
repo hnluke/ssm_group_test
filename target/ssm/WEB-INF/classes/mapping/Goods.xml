@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.GoodsDaoMapper">
+    <!-- 查询   -->
+    <select id="queryGoods"  resultType="com.pojo.Goods">
+        select * from goods
+    </select>
+
+    <select id="queryGoodsById" parameterType="java.lang.Integer" resultType="com.pojo.Goods">
+        select * from goods where good_id = #{goodId}
+
+    </select>
+    <!-- 删除 -->
+    <delete id="deleteGoods" parameterType="integer" >
+        delete from goods where good_id = #{goodId}
+    </delete>
+
+    <!-- 更新 -->
+    <update id="updateGoods" parameterType="com.pojo.Goods">
+        update goods
+        <set>
+            <if test="goodName != null and goodName.trim() != ''">
+                good_name = #{goodName},
+            </if>
+            <if test="goodUnit != null and goodUnit.trim() != ''">
+                good_unit = #{goodUnit},
+            </if>
+            <if test="goodPrice != null">
+                good_price = #{goodPrice},
+            </if>
+            <if test="goodStock != null">
+                good_stock = #{goodStock},
+            </if>
+        </set>
+        where good_id = #{goodId}
+    </update>
+
+    <!-- 新增 -->
+    <insert id="insertGoods" parameterType="com.pojo.Goods"
+            useGeneratedKeys="true" keyColumn="good_id" keyProperty="goodId">
+        insert into goods (good_name, good_unit, good_price, good_stock)
+        values (#{goodName}, #{goodUnit}, #{goodPrice}, #{goodStock})
+    </insert>
+</mapper>
